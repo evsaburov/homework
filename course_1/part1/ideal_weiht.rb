@@ -7,5 +7,5 @@ result = (height - 110) * 1.15
 if (result < 0)
   puts "Ваш вес уже оптимальный"
 else
-  puts "#{name.capitalize} Ваш идеальный вес должен быть #{result} кг."
+  puts "#{name.capitalize} Ваш идеальный вес должен быть #{result.round(2)} кг."
 end
