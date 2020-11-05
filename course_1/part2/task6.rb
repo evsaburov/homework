@@ -8,7 +8,7 @@ while true
   puts "Введите количество товара:"
   count = gets.chomp.to_i
 
-  total[name] = {price: price,count: count}
+  total[name] = { price: price, count: count }
 end
 
 puts total
