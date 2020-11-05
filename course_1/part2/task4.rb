@@ -1,8 +1,6 @@
 hash = {}
-i = 0
 arr = ['a','e','i','o','u']
-('a'..'z').each{ |k|
-  i += 1
-  arr.each { |y| hash[k] = i if k == y }
-}
+('a'..'z').each.with_index(1) do |k,v|
+  arr.each { |y| hash[k] = v  if k == y }
+end
 puts hash
