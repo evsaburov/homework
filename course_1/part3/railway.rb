@@ -50,8 +50,8 @@ class Route
   def arr_route
     routeS = [] 
     routeS << @startS
-    @midleS.each { |station| arr_route << station } 
-    arr_route << @endS
+    @midleS.each { |station| routeS << station } 
+    routeS<< @endS
   end
 
 end
