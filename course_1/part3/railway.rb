@@ -27,20 +27,20 @@ end
 class Route
 
   attr_reader :startS
-  attr_reader :end_station 
+  attr_reader :endS 
 
-  def initialize(startS, end_station)
+  def initialize(startS, endS)
     @startS = startS
-    @end_station = end_station
-    @midle_station = []
+    @endS = endS
+    @midleS = []
   end
 
   def add_mid_station(stationtion)
-    @midle_station << stationtion
+    @midleS << stationtion
   end
 
-  def del_midle_station(stationtion)
-    @midle_station.delete(stationtion)
+  def del_midleS(stationtion)
+    @midleS.delete(stationtion)
   end
 
   def get_station
@@ -50,8 +50,8 @@ class Route
   def arr_route
     arr_route = [] 
     arr_route << @startS
-    @midle_station.each { |station| arr_route << station } 
-    arr_route << @end_station
+    @midleS.each { |station| arr_route << station } 
+    arr_route << @endS
   end
 
 end
