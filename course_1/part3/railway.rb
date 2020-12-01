@@ -26,34 +26,53 @@ end
  
 class Route
 
-  attr_reader :startS
-  attr_reader :endS 
+  attr_reader :start_station
+  attr_reader :end_station 
 
-  def initialize(startS, endS)
-    @startS = startS
-    @endS = endS
-    @midleS = []
+  def initialize(start_station, end_station)
+    @start_station = start_station
+    @end_station = end_station
+    @middle_stations = []
   end
 
   def add_station(stationtion)
-    @midleS << stationtion
+    @middle_stations << stationtion
   end
 
   def del_station(stationtion)
-    @midleS.delete(stationtion)
+    @middle_stations.delete(stationtion)
   end
 
-  def get_station
-    self.arr_route.each { |s| puts s.name }
+  def get_stations
+    self.routes.each { |s| puts s.name }
   end
 
-  def arr_route
-    routeS = [] 
-    routeS << @startS
-    @midleS.each { |station| routeS << station } 
-    routeS<< @endS
+  def routes
+    routes = [] 
+    routes << @start_station
+    @middle_stations.each { |station| routes << station } 
+    routes << @end_station
   end
 
+  def previous_station(current_station)
+    routes = self.routes
+    current_index = routes.index(current_station)
+    if routes[current_index - 1].nil?
+      current_station
+    else
+      routes[current_index - 1]
+    end
+  end
+
+  def next_station(current_station)
+    routes = self.routes
+    current_index = routes.index(current_station)
+    if routes[current_index + 1].nil?
+      current_station
+    else
+      routes[current_index + 1]
+    end
+  end
 end
 
 class Train
@@ -94,27 +113,23 @@ class Train
     @count_carriage -= 1 if self.stoped?
   end
 
- def add_route(route)
-   @route = route
-   @current_station = route.startS
- end
+  def add_route(route)
+    @route = route
+    @current_station = route.start_station
+  end
 
- def next_station
-   station_index = @route.arr_route.index(@current_station) 
-   @current_station = @route.arr_route[station_index + 1] if @route.arr_route[station_index + 1]
- end 
+  def next_station 
+    @current_station = @route.next_station(@current_station)
+  end 
 
- def back_station
-   station_index = @route.arr_route.index(@current_station) 
-   @current_station = @route.arr_route[station_index - 1] if @route.arr_route[station_index - 1]
- end 
+  def back_station
+    @current_station = @route.previous_station(@current_station)
+  end 
 
- def location  
-   arr_route = @route.arr_route
-   cur_index = arr_route.index(@current_station)
-   puts "current station is #{arr_route[cur_index].name}" if arr_route[cur_index]
-   puts "last station is #{arr_route[cur_index - 1].name}" if arr_route[cur_index - 1]
-   puts "next station is #{arr_route[cur_index + 1].name}" if arr_route[cur_index + 1]
- end
+  def location  
+    puts "current station is #{@current_station.name}" 
+    puts "last station is #{@route.previous_station(@current_station).name}"
+    puts "next station is #{@route.next_station(@current_station).name}"
+  end
 end
 
