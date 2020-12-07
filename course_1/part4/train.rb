@@ -1,0 +1,87 @@
+class Train
+  
+  attr_accessor :current_station
+  attr_accessor :speed
+  attr_accessor :route
+  attr_reader :number
+  
+  def initialize(number)
+    @type = self.set_type 
+    @number = number
+    @current_station 
+    @speed = 0
+    @wagons = []
+    @route
+  end
+
+  def add_speed
+    @speed += 10
+  end
+
+  def stop_train
+    @speed = 0
+  end
+
+  def add_carriage(wagon)
+    if self.my_wagon?(wagon)
+      @wagons << wagon 
+    else
+      puts "Тип вагона не соответствует типу поезда"
+    end
+  end
+
+  def del_carriage(wagon)
+    @wagons.delete(wagon)
+  end
+
+  def add_route(route)
+    @route = route
+    @current_station = route.start_station
+    @current_station.enter_train(self)
+  end
+  
+  def next_station 
+    @current_station.send_train(self)
+    @current_station = @route.next_station(@current_station)
+    @current_station.enter_train(self)
+  end
+
+  def back_station
+    @current_station.send_train(self)
+    @current_station = @route.previous_station(@current_station)
+    @current_station.enter_train(self)
+  end
+
+  def location
+    puts "current station is #{@current_station.name}"
+    puts "last station is #{@route.previous_station(@current_station).name}"
+    puts "next station is #{@route.next_station(@current_station).name}"
+  end
+
+  protected
+  # метод будет переопределен у потомков. 
+  def set_type;  end
+  
+  private
+  #метод использутеся толко внутри класса. Для проверки условия.
+  def my_wagon?(wagon)
+    @type == wagon.type  
+  end
+  
+  #метод использутеся толко внутри класса. Для проверки условия.
+  def stoped?
+    @speed.zero  
+  end
+end
+
+class PassengerTrain < Train
+  def set_type
+    'Passanger'
+  end
+end
+
+class CargoTrain < Train
+  def set_type
+    'Cargo'
+  end
+end
