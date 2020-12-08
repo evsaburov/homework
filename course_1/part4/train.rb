@@ -6,7 +6,7 @@ class Train
   attr_reader :number
   
   def initialize(number)
-    @type  
+    @type = self.class  
     @number = number
     @current_station 
     @speed = 0
@@ -57,10 +57,6 @@ class Train
     puts "last station is #{@route.previous_station(@current_station).name}"
     puts "next station is #{@route.next_station(@current_station).name}"
   end
-
-  protected
-  # метод будет переопределен у потомков. 
-  def set_type;  end
   
   private
   #метод использутеся толко внутри класса. Для проверки условия.
