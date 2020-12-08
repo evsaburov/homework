@@ -6,7 +6,7 @@ class Train
   attr_reader :number
   
   def initialize(number)
-    @type = self.set_type 
+    @type  
     @number = number
     @current_station 
     @speed = 0
@@ -65,7 +65,13 @@ class Train
   private
   #метод использутеся толко внутри класса. Для проверки условия.
   def my_wagon?(wagon)
-    @type == wagon.type  
+    if self.is_a? PassengerTrain and wagon.is_a? PassangerWagon
+      true
+    elsif self.is_a? CargoTrain and wagon.is_a? CargoWagon
+      true
+    else
+      false
+    end
   end
   
   #метод использутеся толко внутри класса. Для проверки условия.
@@ -75,13 +81,7 @@ class Train
 end
 
 class PassengerTrain < Train
-  def set_type
-    'Passanger'
-  end
 end
 
 class CargoTrain < Train
-  def set_type
-    'Cargo'
-  end
 end

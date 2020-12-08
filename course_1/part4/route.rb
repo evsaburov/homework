@@ -26,20 +26,20 @@ class Route
   def previous_station(current_station)
     routes = self.routes
     current_index = routes.index(current_station)
-    if routes[current_index - 1].nil?
-      current_station
+    if routes[current_index + 1]
+      routes[current_index + 1]
     else
-      routes[current_index - 1]
+      current_station
     end
   end
 
   def next_station(current_station)
     routes = self.routes
     current_index = routes.index(current_station)
-    if routes[current_index + 1].nil?
-      current_station
-    else
+    if routes[current_index + 1]
       routes[current_index + 1]
+    else
+      current_station
     end
   end
 
@@ -51,8 +51,4 @@ class Route
     @middle_stations.each { |station| routes << station }
     routes << @end_station
   end
-
-
 end
-
-
