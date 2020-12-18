@@ -40,8 +40,6 @@ class MainProgram
     end
     @trains << train
     puts "--> Создан поезд #{train.number}"
-    end
-  end
   rescue RuntimeError => err
     puts "Возникла ошибка: #{err}. Не удалость обработать ответ, попробуйте еще раз."
     retry
@@ -220,9 +218,8 @@ class MainProgram
     retry
   end
 
-  #Эти методы не являюься частью интерфейса
   protected
-
+  #Эти методы не являюься частью интерфейса
   def select_station
     puts "Выберете станцию"
     @stations.each_with_index{ |k,v| puts "#{v}-#{k.name}" }

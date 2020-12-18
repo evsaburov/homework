@@ -2,6 +2,8 @@ class Station
 
   require './instance_counter.rb'
   include InstanceCounter
+  require './validator.rb'
+  include Validator 
   require 'pry'
 
   @@all_stations = []
@@ -10,19 +12,12 @@ class Station
   
   def initialize(name)
     @name = name
+    validate!
     @trains = []
     @@all_stations << self
     self.register_instance
-    validate!
   end
  
-  def valid?
-    validate!
-    true
-  rescue
-    false
-  end
-
   def self.all
     @@all_stations.each { |s| puts s.name }
   end

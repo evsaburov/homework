@@ -4,6 +4,8 @@ class Train
   include Brand
   require './instance_counter.rb'
   include InstanceCounter
+  require './validator.rb'
+  include Validator 
   require 'pry'
 
   attr_accessor :current_station
@@ -17,24 +19,17 @@ class Train
   @instances = 0
 
   def initialize(number)
-    @type = self.class  
     @number = number
+    validate!
+    @type = self.class  
     @current_station 
     @speed = 0
     @wagons = []
     @route
     @@trains[self.number] = self
     self.register_instance
-    validate!
   end
 
-  def valid?
-    validate!
-    true
-  rescue
-    false
-  end
-  
   def self.find(number)
     @@trains[number]
   end

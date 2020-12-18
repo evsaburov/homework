@@ -4,24 +4,20 @@ class Route
   
   require './instance_counter.rb'
   include InstanceCounter
+  require './validator.rb'
+  include Validator 
 
   attr_reader :start_station
   attr_reader :end_station
   attr_reader :name
   
   def initialize(name, start_station, end_station)
+    @name = name
+    validate!
     @start_station = start_station
     @end_station = end_station
     @middle_stations = []
-    @name = name
     self.register_instance
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   def add_station(stationtion)
