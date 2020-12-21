@@ -12,6 +12,20 @@ class Wagon
     @count = count
     validate!
     @type = self.class
+    @resource = 0
+    @all_resource = count
+  end
+
+  def all
+    @all_resource
+  end
+  
+  def taked
+    @resource
+  end
+  
+  def free
+    @all_resource - @resource 
   end
 
   protected
@@ -24,53 +38,13 @@ class Wagon
 end
 
 class PassangerWagon < Wagon
-  def initialize(count)
-    super
-    @places = 0
-    @all_places = count
-  end
-
-  def all
-    @all_places
-  end
-  
-  def taked
-    @places
-  end
-  
   def take
-    @places += 1 if @places < @all_places
-  end
-
-  def free
-    free_place = @all_places - @places 
+    @resource += 1 if @resource < @all_resource
   end
 end
 
 class CargoWagon < Wagon
-  
-  def initialize(count)
-    super
-    @volume = 0
-    @all_volume = count 
-  end
-
-  attr_reader :all_volume 
-  
-  def all
-    @all_volume
-  end
-
   def take(val)
-    @volume += val if @volume < @all_volume
+    @resource += val if @resource < @all_resource
   end
-
-  def taked
-    @volume
-  end
-
-  def free
-    @all_volume - @volume
-  end
-
 end

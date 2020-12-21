@@ -36,7 +36,7 @@ class Train
     @wagons.length  
   end
 
-  def block_wagons(&block)
+  def each_wagon(&block)
     @wagons.each { |w| block.call(w) }
   end
 

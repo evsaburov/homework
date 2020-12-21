@@ -209,12 +209,12 @@ class MainProgram
   
   def get_list_wagons_of_train
     train = select_train
-    train.block_wagons {|w| puts "тип вагона #{w.type}, всего мест/объем #{w.all}. Свободно #{w.free}, занато #{w.taked}."}   
+    train.each_wagon {|w| puts "тип вагона #{w.type}, всего мест/объем #{w.all}. Свободно #{w.free}, занато #{w.taked}."}   
   end
 
   def get_list_trains_on_station
     station = select_station
-    station.block_train { |t| puts "номер поезда #{t.number}, тип поезда #{t.type}, количество вагонов - #{t.wagons_count} " }  
+    station.each_train { |t| puts "номер поезда #{t.number}, тип поезда #{t.type}, количество вагонов - #{t.wagons_count} " }  
   end
 
   def take_place_in_wagon

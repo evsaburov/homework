@@ -18,7 +18,7 @@ class Station
     self.register_instance
   end
 
-  def block_train(&block)
+  def each_train(&block)
     @trains.each { |train| block.call(train) }
   end
 
