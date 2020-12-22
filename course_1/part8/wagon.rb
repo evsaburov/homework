@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 class Wagon
-  
-  require './brand.rb' 
+  require './brand'
   include Brand
-  require './validator.rb'
-  include Validator 
+  require './validator'
+  include Validator
 
   attr_reader :count
-  attr_accessor :type 
-  
+  attr_accessor :type
+
   def initialize(count)
     @count = count
     validate!
@@ -19,22 +20,21 @@ class Wagon
   def all
     @all_resource
   end
-  
+
   def taked
     @resource
   end
-  
+
   def free
-    @all_resource - @resource 
+    @all_resource - @resource
   end
 
   protected
 
   def validate!
-    raise "должно быьть указано число " if !count.is_a? Integer 
-    raise "число должно быть больше нуля" if count < 0 
+    raise 'должно быьть указано число ' unless count.is_a? Integer
+    raise 'число должно быть больше нуля' if count.negative?
   end
-
 end
 
 class PassangerWagon < Wagon

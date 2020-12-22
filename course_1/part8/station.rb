@@ -1,21 +1,23 @@
-class Station
+# frozen_string_literal: true
 
-  require './instance_counter.rb'
+class Station
+  require './instance_counter'
   include InstanceCounter
-  require './validator.rb'
-  include Validator 
+  require './validator'
+  include Validator
   require 'pry'
 
   @@all_stations = []
   attr_reader :name
+
   @instances = 0
-  
+
   def initialize(name)
     @name = name
     validate!
     @trains = []
     @@all_stations << self
-    self.register_instance
+    register_instance
   end
 
   def each_train(&block)
@@ -30,8 +32,8 @@ class Station
     @trains << train
   end
 
-  def get_trains
-    @trains.each{ |train| puts train.number }
+  def trains
+    @trains.each { |train| puts train.number }
   end
 
   def send_train(train)
@@ -41,9 +43,7 @@ class Station
   protected
 
   def validate!
-    raise "наименование должно быть строкой" if !name.is_a? String
-    raise "имя не должно быть меньше 3 символов" if name.length < 3 
+    raise 'наименование должно быть строкой' unless name.is_a? String
+    raise 'имя не должно быть меньше 3 символов' if name.length < 3
   end
-
 end
-

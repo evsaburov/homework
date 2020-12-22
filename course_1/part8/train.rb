@@ -1,21 +1,16 @@
 class Train
- 
-  require './brand.rb' 
+  require './brand'
   include Brand
-  require './instance_counter.rb'
+  require './instance_counter'
   include InstanceCounter
-  require './validator.rb'
-  include Validator 
+  require './validator'
+  include Validator
   require 'pry'
 
-  attr_accessor :current_station
-  attr_accessor :speed
-  attr_accessor :route
-  attr_reader :number
-  attr_reader :type
-  
+  attr_accessor :current_station, :speed, :route
+  attr_reader :number, :type
 
-  FORMAT_NUMBER = /[A-Za-z]{3}-?\d{3}/
+  FORMAT_NUMBER = /[A-Za-z]{3}-?\d{3}/.freeze
 
   @@trains = {}
   @instances = 0
@@ -23,17 +18,17 @@ class Train
   def initialize(number)
     @number = number
     validate!
-    @type = self.class  
-    @current_station 
+    @type = self.class
+    @current_station
     @speed = 0
     @wagons = []
     @route
     @@trains[self.number] = self
-    self.register_instance
+    register_instance
   end
 
   def wagons_count
-    @wagons.length  
+    @wagons.length
   end
 
   def each_wagon(&block)
@@ -53,10 +48,10 @@ class Train
   end
 
   def add_carriage(wagon)
-    if self.my_wagon?(wagon)
-      @wagons << wagon 
+    if my_wagon?(wagon)
+      @wagons << wagon
     else
-      puts "Тип вагона не соответствует типу поезда"
+      puts 'Тип вагона не соответствует типу поезда'
     end
   end
 
@@ -69,8 +64,8 @@ class Train
     @current_station = route.start_station
     @current_station.enter_train(self)
   end
-  
-  def next_station 
+
+  def next_station
     @current_station.send_train(self)
     @current_station = @route.next_station(@current_station)
     @current_station.enter_train(self)
@@ -87,30 +82,31 @@ class Train
     puts "last station is #{@route.previous_station(@current_station).name}"
     puts "next station is #{@route.next_station(@current_station).name}"
   end
-  
-  protected 
+
+  protected
+
   def validate!
-    raise "наименование должно быть строка" if !number.is_a? String 
-    raise "номер не соответствует формату БББ-ЦЦЦ" if number !~ FORMAT_NUMBER 
+    raise 'наименование должно быть строка' unless number.is_a? String
+    raise 'номер не соответствует формату БББ-ЦЦЦ' if number !~ FORMAT_NUMBER
   end
 
   private
-  #метод использутеся толко внутри класса. Для проверки условия.
+
+  # метод использутеся толко внутри класса. Для проверки условия.
   def my_wagon?(wagon)
-    if self.is_a? PassengerTrain and wagon.is_a? PassangerWagon
+    if is_a?(PassengerTrain) && wagon.is_a?(PassangerWagon)
       true
-    elsif self.is_a? CargoTrain and wagon.is_a? CargoWagon
+    elsif is_a?(CargoTrain) && wagon.is_a?(CargoWagon)
       true
     else
       false
     end
   end
-  
-  #метод использутеся толко внутри класса. Для проверки условия.
-  def stoped?
-    @speed.zero  
-  end
 
+  # метод использутеся толко внутри класса. Для проверки условия.
+  def stoped?
+    @speed.zero
+  end
 end
 
 class PassengerTrain < Train
