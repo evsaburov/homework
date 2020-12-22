@@ -24,7 +24,7 @@ class Train
     @wagons = []
     @route
     @@trains[self.number] = self
-    register_instance
+    self.register_instance
   end
 
   def wagons_count

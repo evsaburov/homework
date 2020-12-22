@@ -95,8 +95,8 @@ class MainProgram
       create_route
     when 2
       add_station_in_route
-    when
-        del_station_in_route
+    when 3
+      del_station_in_route
     end
   rescue RuntimeError => e
     puts "Возникла ошибка: #{e}. Не удалость обработать ответ, попробуйте еще раз."

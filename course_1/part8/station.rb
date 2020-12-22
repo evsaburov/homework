@@ -17,7 +17,7 @@ class Station
     validate!
     @trains = []
     @@all_stations << self
-    register_instance
+    self.register_instance
   end
 
   def each_train(&block)
