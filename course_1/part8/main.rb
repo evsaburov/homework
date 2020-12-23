@@ -28,17 +28,13 @@ class MainProgram
   def create_train
     puts 'Введите номер поезда.'
     number = gets.chomp.to_s
-
     puts 'Выберете тип поезда 1-пассажирский, 2-грузовой'
     type_selected = gets.chomp.to_i
-
     case type_selected
     when 1
       train = PassengerTrain.new(number)
-      puts "--> Создан #{train.number} пассажирский поезд"
     when 2
       train = CargoTrain.new(number)
-      puts "--> Создан #{train.number} грузовой поезд"
     end
     @trains << train
     puts "--> Создан поезд #{train.number}"
@@ -103,22 +99,24 @@ class MainProgram
     retry
   end
 
+  def new_wagons(type_selected)
+    case type_selected
+    when 1
+      puts 'Выберете количество пассажирских мест'
+      place_selected = gets.chomp.to_i
+      PassangerWagon.new(place_selected)
+    when 2
+      puts 'Выберете объем для грузового вагода'
+      volume_selected = gets.chomp.to_i
+      CargoWagon.new(volume_selected)
+    end
+  end
+
   def create_wagons
     puts 'Выберете тип вагона 1-пассажирский, 2-грузовой'
     type_selected = gets.chomp.to_i
-
-    if type_selected == 1
-      puts 'Выберете количество пассажирских мест'
-      place_selected = gets.chomp.to_i
-      wagon = PassangerWagon.new(place_selected)
-      puts "--> Создан пассажирский вагоно, на #{place_selected} мест "
-    else
-      puts 'Выберете объем для грузового вагода'
-      volume_selected = gets.chomp.to_i
-      wagon = CargoWagon.new(volume_selected)
-      puts "--> Создан грузовых вагонов, на объем в #{volume_selected}"
-    end
-    @wagons << wagon
+    wagon = new_wagons(type_selected)
+    @wagons << wagon unless wagon.nil?
   rescue RuntimeError => e
     puts "Возникла ошибка: #{e}. Не удалость обработать ответ, попробуйте еще раз."
     retry
@@ -134,7 +132,7 @@ class MainProgram
     retry
   end
 
-  def add_wagon_to_train
+  def add_wagon
     train = select_train
     wagon = select_wagon
     train.add_carriage(wagon)
@@ -144,7 +142,7 @@ class MainProgram
     retry
   end
 
-  def del_wagon_to_train
+  def del_wagon
     train = select_train
     wagon = select_wagon
     train.del_carriage(wagon)
@@ -314,9 +312,9 @@ loop do
   when 5
     railway.assign_route_to_train
   when 6
-    railway.add_wagon_to_train
+    railway.add_wagon
   when 7
-    railway.del_wagon_to_train
+    railway.del_wagon
   when 8
     railway.move_train
   when 9

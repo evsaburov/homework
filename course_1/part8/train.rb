@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Train
   require './brand'
   include Brand
@@ -19,10 +21,8 @@ class Train
     @number = number
     validate!
     @type = self.class
-    @current_station
     @speed = 0
     @wagons = []
-    @route
     @@trains[self.number] = self
     self.register_instance
   end
